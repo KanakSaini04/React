@@ -213,7 +213,6 @@ const App = () => {
             <div className="type-pill">Business utility tools</div>
             <div className="type-pill">Automation workflows</div>
             <div className="type-pill">Calculators & utilities</div>
-            <div className="type-pill">YouTube creator tools</div>
             <div className="type-pill">Custom specific ideas</div>
           </div>
         </section>
