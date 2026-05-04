@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import './index.css';
+import AdBanner from './AdBanner';
 
 const App = () => {
   const [menuOpen, setMenuOpen] = useState(false);
@@ -96,13 +97,11 @@ const App = () => {
           </div>
         </section>
 
-        <div className="ad" style={{ display: 'flex', justifyContent: 'center', background: 'transparent', border: 'none' }}>
-          {/* AdSense Leaderboard 728x90 */}
-          <ins className="adsbygoogle"
-               style={{ display: 'inline-block', width: '728px', height: '90px', backgroundColor: 'rgba(0,0,0,0.3)', border: '1px dashed rgba(255, 255, 255, 0.08)', borderRadius: '8px' }}
-               data-ad-client="ca-pub-xxxxxxxxxxxxxxxx"
-               data-ad-slot="xxxxxxxxxx"></ins>
-        </div>
+        <AdBanner 
+          dataAdSlot="xxxxxxxxxx" 
+          width={728} 
+          height={90} 
+        />
 
         <section className="sec" id="services">
           <h2 className="sec-title">Service Packages</h2>
@@ -200,13 +199,11 @@ const App = () => {
           </div>
         </section>
 
-        <div className="ad" style={{ margin: '0 auto 2rem', maxWidth: '300px', display: 'flex', justifyContent: 'center', background: 'transparent', border: 'none' }}>
-          {/* AdSense Rectangle 300x250 */}
-          <ins className="adsbygoogle"
-               style={{ display: 'inline-block', width: '300px', height: '250px', backgroundColor: 'rgba(0,0,0,0.3)', border: '1px dashed rgba(255, 255, 255, 0.08)', borderRadius: '8px' }}
-               data-ad-client="ca-pub-xxxxxxxxxxxxxxxx"
-               data-ad-slot="xxxxxxxxxx"></ins>
-        </div>
+        <AdBanner 
+          dataAdSlot="xxxxxxxxxx" 
+          width={300} 
+          height={250} 
+        />
 
         <section className="sec" style={{ paddingTop: '2rem' }}>
           <h2 className="sec-title">Types of Apps I Build</h2>
@@ -258,15 +255,11 @@ const App = () => {
           </div>
         </section>
 
-        <div className="ad" style={{ display: 'flex', justifyContent: 'center', background: 'transparent', border: 'none' }}>
-          {/* AdSense In-article / Native */}
-          <ins className="adsbygoogle"
-               style={{ display: 'block', textAlign: 'center', width: '100%', minHeight: '150px', backgroundColor: 'rgba(0,0,0,0.3)', border: '1px dashed rgba(255, 255, 255, 0.08)', borderRadius: '8px' }}
-               data-ad-layout="in-article"
-               data-ad-format="fluid"
-               data-ad-client="ca-pub-xxxxxxxxxxxxxxxx"
-               data-ad-slot="xxxxxxxxxx"></ins>
-        </div>
+        <AdBanner 
+          dataAdSlot="xxxxxxxxxx" 
+          dataAdLayout="in-article" 
+          dataAdFormat="fluid" 
+        />
 
         <section className="sec" id="about">
           <h2 className="sec-title">Contact & Feedback</h2>
