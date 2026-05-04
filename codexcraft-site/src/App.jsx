@@ -1,152 +1,327 @@
-import { useState } from "react";
+import React, { useState, useEffect } from 'react';
+import './index.css';
 
-function App() {
+const App = () => {
+  const [menuOpen, setMenuOpen] = useState(false);
+
+  const toggleMenu = () => setMenuOpen(!menuOpen);
 
   const scrollTo = (id) => {
-    document.getElementById(id).scrollIntoView({ behavior: "smooth" });
+    const el = document.getElementById(id);
+    if (el) {
+      el.scrollIntoView({ behavior: 'smooth' });
+    }
+    setMenuOpen(false);
   };
 
+  const submitFB = () => {
+    const n = document.getElementById('fb-name').value.trim();
+    const e = document.getElementById('fb-email').value.trim();
+    const m = document.getElementById('fb-msg').value.trim();
+    const t = document.getElementById('fb-type').value;
+
+    if (!n || !e || !m) {
+      alert('Please fill in your name, email, and message to continue.');
+      return;
+    }
+
+    const s = encodeURIComponent('CodexCraft Inquiry from ' + n);
+    const b = encodeURIComponent('Name: ' + n + '\nEmail: ' + e + '\nService: ' + (t || 'Not specified') + '\n\nMessage:\n' + m);
+
+    window.open('mailto:contact@codexcraft.in?subject=' + s + '&body=' + b);
+    document.getElementById('succ').style.display = 'block';
+
+    setTimeout(() => {
+      document.getElementById('fb-name').value = '';
+      document.getElementById('fb-email').value = '';
+      document.getElementById('fb-msg').value = '';
+      document.getElementById('fb-type').value = '';
+    }, 1000);
+  };
+
+  // Interactive card hover effect
+  useEffect(() => {
+    const handleMouseMove = (e) => {
+      const cards = document.querySelectorAll('.card');
+      cards.forEach(card => {
+        const rect = card.getBoundingClientRect();
+        const x = e.clientX - rect.left;
+        const y = e.clientY - rect.top;
+        card.style.setProperty('--mouse-x', `${x}px`);
+        card.style.setProperty('--mouse-y', `${y}px`);
+      });
+    };
+    
+    window.addEventListener('mousemove', handleMouseMove);
+    return () => window.removeEventListener('mousemove', handleMouseMove);
+  }, []);
+
   return (
-    <div style={{ fontFamily: "sans-serif", margin: 0 }}>
+    <>
+      <div className="bg-elements">
+        <div className="blob blob-1"></div>
+        <div className="blob blob-2"></div>
+        <div className="blob blob-3"></div>
+      </div>
 
-      {/* NAVBAR */}
-      <nav style={{
-        position: "fixed",
-        top: 0,
-        width: "100%",
-        background: "rgba(2,6,23,0.6)",
-        backdropFilter: "blur(10px)",
-        color: "white",
-        display: "flex",
-        justifyContent: "space-between",
-        padding: "15px 30px",
-        zIndex: 1000
-      }}>
-        <h3>CodeXCraft</h3>
-        <div style={{ display: "flex", gap: "20px" }}>
-          <span onClick={() => scrollTo("about")} style={{ cursor: "pointer" }}>About</span>
-          <span onClick={() => scrollTo("projects")} style={{ cursor: "pointer" }}>Projects</span>
-          <span onClick={() => scrollTo("contact")} style={{ cursor: "pointer" }}>Contact</span>
+      <div className="nav-wrapper">
+        <div className="w">
+          <nav className="nav">
+            <div className="logo" onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}>
+              Codex<span>Craft</span>
+            </div>
+            <div className={`nav-links ${menuOpen ? 'active' : ''}`} id="nav-links">
+              <a onClick={() => scrollTo('services')}>Services</a>
+              <a onClick={() => scrollTo('testing')}>Testing</a>
+              <a onClick={() => scrollTo('process')}>Process</a>
+              <a onClick={() => scrollTo('about')}>About</a>
+            </div>
+            <button className="nav-btn" onClick={() => scrollTo('contact')}>Get in touch</button>
+            <button className="menu-btn" onClick={toggleMenu}>☰</button>
+          </nav>
         </div>
-      </nav>
+      </div>
 
-      {/* HERO */}
-      <section style={{
-        height: "100vh",
-        background: "linear-gradient(135deg, #0f172a, #1e3a8a)",
-        color: "white",
-        display: "flex",
-        flexDirection: "column",
-        justifyContent: "center",
-        alignItems: "center",
-        textAlign: "center"
-      }}>
-        <h1 style={{ fontSize: "3rem" }}>🚀 CodeXCraft</h1>
-        <h2>Hi, I’m Kanak</h2>
-        <p>Android Developer | React Learner</p>
-
-        <button
-          style={{
-            marginTop: "20px",
-            padding: "12px 24px",
-            borderRadius: "20px",
-            border: "none",
-            background: "rgba(255,255,255,0.2)",
-            backdropFilter: "blur(10px)",
-            color: "white",
-            cursor: "pointer",
-            transition: "0.3s"
-          }}
-          onClick={() => scrollTo("projects")}
-          onMouseEnter={(e) => e.target.style.transform = "scale(1.1)"}
-          onMouseLeave={(e) => e.target.style.transform = "scale(1)"}
-        >
-          View Projects
-        </button>
-      </section>
-
-      {/* ABOUT */}
-      <section id="about" style={{
-        padding: "80px 20px",
-        textAlign: "center",
-        background: "#020617",
-        color: "white"
-      }}>
-        <h2>About Me</h2>
-        <p>
-          I build Android apps using Jetpack Compose and now exploring React.
-        </p>
-      </section>
-
-      {/* PROJECTS */}
-      <section id="projects" style={{
-        padding: "80px 20px",
-        background: "#0f172a",
-        color: "white",
-        textAlign: "center"
-      }}>
-        <h2>Projects</h2>
-
-        <div style={{
-          display: "flex",
-          justifyContent: "center",
-          gap: "20px",
-          flexWrap: "wrap",
-          marginTop: "30px"
-        }}>
-
-          {/* CARD 1 */}
-          <div
-            style={{
-              padding: "20px",
-              background: "rgba(255,255,255,0.1)",
-              backdropFilter: "blur(10px)",
-              borderRadius: "15px",
-              width: "250px",
-              border: "1px solid rgba(255,255,255,0.2)",
-              transition: "0.3s"
-            }}
-            onMouseEnter={(e) => e.currentTarget.style.transform = "scale(1.05)"}
-            onMouseLeave={(e) => e.currentTarget.style.transform = "scale(1)"}
-          >
-            <h3>Quotes App</h3>
-            <p>Jetpack Compose app with clean UI</p>
+      <div className="w">
+        <section className="hero">
+          <div className="badge">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"></polygon></svg>
+            Android App Developer & App Tester
           </div>
-
-          {/* CARD 2 */}
-          <div
-            style={{
-              padding: "20px",
-              background: "rgba(255,255,255,0.1)",
-              backdropFilter: "blur(10px)",
-              borderRadius: "15px",
-              width: "250px",
-              border: "1px solid rgba(255,255,255,0.2)",
-              transition: "0.3s"
-            }}
-            onMouseEnter={(e) => e.currentTarget.style.transform = "scale(1.05)"}
-            onMouseLeave={(e) => e.currentTarget.style.transform = "scale(1)"}
-          >
-            <h3>Calculator UI</h3>
-            <p>Glass UI style calculator</p>
+          <h1>Build Your Own<br /><span>Android App</span></h1>
+          <p>Fast, clean, and functional Android apps for your business or idea — plus professional app testing services to ensure standard market-level quality.</p>
+          <div className="btn-row">
+            <a className="btn btn-p" onClick={() => scrollTo('contact')}>Start Your App</a>
+            <a className="btn btn-g" onClick={() => scrollTo('services')}>View Packages</a>
           </div>
+        </section>
 
+        <div className="ad" style={{ display: 'flex', justifyContent: 'center', background: 'transparent', border: 'none' }}>
+          {/* AdSense Leaderboard 728x90 */}
+          <ins className="adsbygoogle"
+               style={{ display: 'inline-block', width: '728px', height: '90px', backgroundColor: 'rgba(0,0,0,0.3)', border: '1px dashed rgba(255, 255, 255, 0.08)', borderRadius: '8px' }}
+               data-ad-client="ca-pub-xxxxxxxxxxxxxxxx"
+               data-ad-slot="xxxxxxxxxx"></ins>
         </div>
-      </section>
 
-      {/* CONTACT */}
-      <section id="contact" style={{
-        padding: "80px 20px",
-        textAlign: "center",
-        background: "#020617",
-        color: "white"
-      }}>
-        <h2>Contact</h2>
-        <p>Email: your@email.com</p>
-      </section>
+        <section className="sec" id="services">
+          <h2 className="sec-title">Service Packages</h2>
+          <p className="sec-sub">Choose the plan that perfectly fits your idea, timeline, and budget.</p>
+          <div className="cards">
+            <div className="card">
+              <div className="cbadge">Starter</div>
+              <h3>Basic App</h3>
+              <div className="sub">Simple ideas & MVPs</div>
+              <ul>
+                <li>2–3 screens</li>
+                <li>Clean UI design</li>
+                <li>Basic functionality</li>
+                <li>APK delivery</li>
+              </ul>
+              <div className="delivery">Delivery: 3 weeks</div>
+            </div>
+            <div className="card feat">
+              <div className="cbadge pop">Most Popular</div>
+              <h3>Standard App</h3>
+              <div className="sub">Growing projects</div>
+              <ul>
+                <li>5–8 screens</li>
+                <li>API integration</li>
+                <li>Improved UI/UX</li>
+                <li>Source code included</li>
+              </ul>
+              <div className="delivery">Delivery: 2 months</div>
+            </div>
+            <div className="card">
+              <div className="cbadge">Premium</div>
+              <h3>Premium App</h3>
+              <div className="sub">Full-feature apps</div>
+              <ul>
+                <li>Advanced UI design</li>
+                <li>Custom features</li>
+                <li>Scalable structure</li>
+                <li>Priority support</li>
+              </ul>
+              <div className="delivery">Delivery: 6 months</div>
+            </div>
+          </div>
+          <p style={{ fontSize: '15px', fontWeight: 500, color: '#64748b', marginTop: '2.5rem', textAlign: 'center' }}>
+            Custom requirements? <a href="mailto:contact@codexcraft.in" style={{ color: 'var(--accent)', textDecoration: 'none', fontWeight: 600 }}>Contact me directly.</a>
+          </p>
+        </section>
 
-    </div>
+        <div className="divider"></div>
+
+        <section className="sec" id="testing">
+          <h2 className="sec-title">Hire me as an app tester</h2>
+          <p className="sec-sub">I test your Android app thoroughly across real devices before it goes live.</p>
+          <div className="tester-wrap">
+            <div className="tester-card">
+              <div className="tcard-head">
+                <div className="tcard-icon nt">
+                  <svg viewBox="0 0 24 24" fill="none">
+                    <rect x="3" y="3" width="7" height="7" rx="2" fill="#AFA9EC" />
+                    <rect x="14" y="3" width="7" height="7" rx="2" fill="#AFA9EC" />
+                    <rect x="3" y="14" width="7" height="7" rx="2" fill="#AFA9EC" />
+                    <rect x="14" y="14" width="7" height="7" rx="2" fill="#534AB7" />
+                  </svg>
+                </div>
+                <div>
+                  <div className="tcard-label nt">Non-technical</div>
+                  <div className="tcard-name">Functional Testing</div>
+                </div>
+              </div>
+              <div className="tcard-items">
+                <div className="tcard-item">Functional testing — does every feature work exactly as expected?</div>
+                <div className="tcard-item">UI/UX testing — layout, readability, user flow, and visual clarity</div>
+                <div className="tcard-item">Negative testing — what happens with wrong inputs or edge cases?</div>
+              </div>
+            </div>
+            <div className="tester-card tech">
+              <div className="tcard-head">
+                <div className="tcard-icon t">
+                  <svg viewBox="0 0 24 24" fill="none">
+                    <path d="M5 8L2 12L5 16" stroke="#5DCAA5" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" />
+                    <path d="M19 8L22 12L19 16" stroke="#5DCAA5" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" />
+                    <path d="M15 3L9 21" stroke="#1D9E75" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" />
+                  </svg>
+                </div>
+                <div>
+                  <div className="tcard-label t">Technical</div>
+                  <div className="tcard-name">Deep Testing</div>
+                </div>
+              </div>
+              <div className="tcard-items">
+                <div className="tcard-item t-item">Performance testing — speed, memory limits, and battery usage</div>
+                <div className="tcard-item t-item">Security basics — local data exposure and input validation checks</div>
+                <div className="tcard-item t-item">Responsiveness — multiple screen sizes and varied Android OS versions</div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <div className="ad" style={{ margin: '0 auto 2rem', maxWidth: '300px', display: 'flex', justifyContent: 'center', background: 'transparent', border: 'none' }}>
+          {/* AdSense Rectangle 300x250 */}
+          <ins className="adsbygoogle"
+               style={{ display: 'inline-block', width: '300px', height: '250px', backgroundColor: 'rgba(0,0,0,0.3)', border: '1px dashed rgba(255, 255, 255, 0.08)', borderRadius: '8px' }}
+               data-ad-client="ca-pub-xxxxxxxxxxxxxxxx"
+               data-ad-slot="xxxxxxxxxx"></ins>
+        </div>
+
+        <section className="sec" style={{ paddingTop: '2rem' }}>
+          <h2 className="sec-title">Types of Apps I Build</h2>
+          <p className="sec-sub">Standard market-level Android apps engineered for real-world use cases.</p>
+          <div className="types">
+            <div className="type-pill">Finance & budgeting</div>
+            <div className="type-pill">Business utility tools</div>
+            <div className="type-pill">Automation workflows</div>
+            <div className="type-pill">Calculators & utilities</div>
+            <div className="type-pill">YouTube creator tools</div>
+            <div className="type-pill">Custom specific ideas</div>
+          </div>
+        </section>
+
+        <div className="divider"></div>
+
+        <section className="sec" id="process">
+          <h2 className="sec-title">How it works</h2>
+          <p className="sec-sub">A transparent, simple 4-step process taking you from an idea to a live APK.</p>
+          <div className="process">
+            <div className="step">
+              <div className="step-num">1</div>
+              <div className="step-text">
+                <h4>Share your idea</h4>
+                <p>Tell me what you want to build — key features, target users, and design references.</p>
+              </div>
+            </div>
+            <div className="step">
+              <div className="step-num">2</div>
+              <div className="step-text">
+                <h4>Plan & design</h4>
+                <p>I map out the screens and user flow — you approve everything before development starts.</p>
+              </div>
+            </div>
+            <div className="step">
+              <div className="step-num">3</div>
+              <div className="step-text">
+                <h4>Development</h4>
+                <p>Writing clean code, testing on real devices, and building for long-term performance.</p>
+              </div>
+            </div>
+            <div className="step">
+              <div className="step-num">4</div>
+              <div className="step-text">
+                <h4>APK delivered</h4>
+                <p>Final production APK + complete source code sent to you. Standard revisions included.</p>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <div className="ad" style={{ display: 'flex', justifyContent: 'center', background: 'transparent', border: 'none' }}>
+          {/* AdSense In-article / Native */}
+          <ins className="adsbygoogle"
+               style={{ display: 'block', textAlign: 'center', width: '100%', minHeight: '150px', backgroundColor: 'rgba(0,0,0,0.3)', border: '1px dashed rgba(255, 255, 255, 0.08)', borderRadius: '8px' }}
+               data-ad-layout="in-article"
+               data-ad-format="fluid"
+               data-ad-client="ca-pub-xxxxxxxxxxxxxxxx"
+               data-ad-slot="xxxxxxxxxx"></ins>
+        </div>
+
+        <section className="sec" id="about">
+          <h2 className="sec-title">Contact & Feedback</h2>
+          <p className="sec-sub">I build standard market-level Android apps. Got a project or feedback? Let me know.</p>
+          <div className="fb">
+            <div className="form-group">
+              <label>Your name</label>
+              <input type="text" id="fb-name" placeholder="Rahul / Alex" />
+            </div>
+            <div className="form-group">
+              <label>Email address</label>
+              <input type="email" id="fb-email" placeholder="you@example.com" />
+            </div>
+            <div className="form-group">
+              <label>What are you looking for?</label>
+              <select id="fb-type">
+                <option value="">Select a service...</option>
+                <option>Basic App — 3 weeks</option>
+                <option>Standard App — 2 months</option>
+                <option>Premium App — 6 months</option>
+                <option>App Testing (Non-technical)</option>
+                <option>App Testing (Technical)</option>
+                <option>App Testing (Both)</option>
+                <option>Just giving feedback</option>
+              </select>
+            </div>
+            <div className="form-group">
+              <label>Your message or feedback</label>
+              <textarea id="fb-msg" placeholder="Share your idea, questions, or specific project requirements..."></textarea>
+            </div>
+            <button className="submit" onClick={submitFB}>Send Message →</button>
+            <div className="success" id="succ">Message details opened in your email client. I'll reply within 24 hours.</div>
+          </div>
+        </section>
+
+        <div className="cta" id="contact">
+          <h2>Have an idea? Let's build it.</h2>
+          <p>Android apps, testing services, business utilities — whatever it is, I'll help you ship something real and functional.</p>
+          <div className="btn-row">
+            <a className="btn btn-p" onClick={() => scrollTo('about')}>Start Your Project</a>
+            <a className="btn btn-g" onClick={() => scrollTo('testing')}>Hire Me as Tester</a>
+          </div>
+          <div className="contact-row">
+            <span>contact@codexcraft.in</span>
+            <span>Available for Freelance</span>
+            <span>WhatsApp on request</span>
+          </div>
+        </div>
+
+        <div className="footer">
+          © 2026 CodexCraft · Premium Android App Development & Testing · codexcraft.in
+        </div>
+      </div>
+    </>
   );
-}
+};
 
 export default App;
