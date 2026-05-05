@@ -309,7 +309,8 @@ const App = () => {
         </div>
 
         <div className="footer">
-          © 2026 CodexCraft · Premium Android App Development & Testing · codexcraft.in
+          <p style={{ margin: '0 0 10px 0' }}>© 2026 CodexCraft · Premium Android App Development & Testing · codexcraft.in</p>
+          <a href="/privacy-qrforge" style={{ color: 'var(--text-muted)', textDecoration: 'none', fontSize: '14px', transition: 'color 0.3s' }} onMouseOver={(e) => e.target.style.color = 'var(--text-main)'} onMouseOut={(e) => e.target.style.color = 'var(--text-muted)'}>Privacy Policy</a>
         </div>
       </div>
     </>
