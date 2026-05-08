@@ -1,0 +1,95 @@
+/* /lensora/assets/legal.css */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap');
+
+:root {
+  --bg-color: #000000;
+  --text-color: #E0E0E0;
+  --accent-color: #00E5FF;
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: 'Inter', sans-serif;
+  background-color: var(--bg-color);
+  color: var(--text-color);
+  line-height: 1.6;
+  font-size: 16px;
+  -webkit-font-smoothing: antialiased;
+}
+
+.container {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 40px 20px;
+}
+
+header {
+  margin-bottom: 40px;
+  border-top: 4px solid var(--accent-color);
+  padding-top: 20px;
+}
+
+h1 {
+  font-size: 2rem;
+  font-weight: 700;
+  margin-bottom: 10px;
+  color: #FFFFFF;
+}
+
+.last-updated {
+  font-size: 0.9rem;
+  color: #A0A0A0;
+  margin-bottom: 20px;
+}
+
+.intro {
+  font-size: 1.1rem;
+  margin-bottom: 30px;
+}
+
+h2 {
+  font-size: 1.25rem;
+  font-weight: 600;
+  margin-top: 30px;
+  margin-bottom: 15px;
+  color: #FFFFFF;
+}
+
+p {
+  margin-bottom: 20px;
+}
+
+a {
+  color: var(--accent-color);
+  text-decoration: none;
+  transition: color 0.2s ease;
+}
+
+a:hover {
+  text-decoration: underline;
+  color: #00B3CC;
+}
+
+.brand-accent {
+  color: var(--accent-color);
+  font-weight: 600;
+}
+
+@media (max-width: 600px) {
+  .container {
+    padding: 20px;
+  }
+
+  h1 {
+    font-size: 1.75rem;
+  }
+
+  h2 {
+    font-size: 1.15rem;
+  }
+}
