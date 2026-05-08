@@ -22,3 +22,22 @@ dist-ssr
 *.njsproj
 *.sln
 *.sw?
+
+# --- CODEXCRAFT SECURITY BLOCK ---
+# Never upload Keystores or signing keys
+*.jks
+*.keystore
+key.properties
+
+# Never upload local environment variables or API keys
+local.properties
+google-services.json
+firebase-app-distribution.properties
+
+# Ignore OS specific hidden files
+.DS_Store
+Thumbs.db
+
+# Ignore build folders (Android Studio usually adds these, but just in case)
+/build
+*/build
